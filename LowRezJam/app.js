@@ -34,7 +34,7 @@ var LowRezJam;
             var imageNum = 0;
             this.images[imageNum].frame = LowRezJam.Helper.getFrame(this.game, 0, 1);
 
-            for (var y = this.hero.Position.Y - 3; y <= this.hero.Position.Y; y--) {
+            for (var y = this.hero.Position.Y - 3; y <= this.hero.Position.Y; y++) {
             }
         };
         return SimpleGame;
