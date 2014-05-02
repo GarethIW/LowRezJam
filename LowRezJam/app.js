@@ -1,4 +1,8 @@
 ﻿/// <reference path="phaser.d.ts"/>
+/// <reference path="helper.ts"/>
+/// <reference path="point.ts"/>
+/// <reference path="dungeon.ts"/>
+/// <reference path="hero.ts"/>
 var LowRezJam;
 (function (LowRezJam) {
     var SimpleGame = (function () {
