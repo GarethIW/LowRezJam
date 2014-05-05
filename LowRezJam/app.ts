@@ -64,10 +64,10 @@ module LowRezJam {
 
                             var checkLoc = new Point(crawlergame.hero.Position.X + ((f * crawlergame.hero.Forward.X) + ((l - 1) * crawlergame.hero.Left.X)),
                                 crawlergame.hero.Position.Y + ((f * crawlergame.hero.Forward.Y) + ((l - 1) * crawlergame.hero.Left.Y)));
-                            if (crawlergame.dungeon.Tiles[checkLoc.Y][checkLoc.X] != 2) {
+                            //if (crawlergame.dungeon.Tiles[checkLoc.Y][checkLoc.X] != 2) {
                                 crawlergame.images[imageNum].frame = Helper.getFrame(this.game, 3 - l, f);
                                 imageNum++;
-                            }
+                            //}
 
                         }
                     }
@@ -81,10 +81,10 @@ module LowRezJam {
 
                             var checkLoc = new Point(crawlergame.hero.Position.X + ((f * crawlergame.hero.Forward.X) + ((l - 1) * -crawlergame.hero.Left.X)),
                                 crawlergame.hero.Position.Y + ((f * crawlergame.hero.Forward.Y) + ((l - 1) * -crawlergame.hero.Left.Y)));
-                            if (crawlergame.dungeon.Tiles[checkLoc.Y][checkLoc.X] != 2) {
+                            //if (crawlergame.dungeon.Tiles[checkLoc.Y][checkLoc.X] != 2) {
                                 crawlergame.images[imageNum].frame = Helper.getFrame(this.game, 3 + l, f);
                                 imageNum++;
-                            }
+                            //}
 
                         }
 

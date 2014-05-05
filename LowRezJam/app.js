@@ -45,10 +45,11 @@ var LowRezJam;
 
                             //}
                             var checkLoc = new LowRezJam.Point(crawlergame.hero.Position.X + ((f * crawlergame.hero.Forward.X) + ((l - 1) * crawlergame.hero.Left.X)), crawlergame.hero.Position.Y + ((f * crawlergame.hero.Forward.Y) + ((l - 1) * crawlergame.hero.Left.Y)));
-                            if (crawlergame.dungeon.Tiles[checkLoc.Y][checkLoc.X] != 2) {
-                                crawlergame.images[imageNum].frame = LowRezJam.Helper.getFrame(this.game, 3 - l, f);
-                                imageNum++;
-                            }
+
+                            //if (crawlergame.dungeon.Tiles[checkLoc.Y][checkLoc.X] != 2) {
+                            crawlergame.images[imageNum].frame = LowRezJam.Helper.getFrame(this.game, 3 - l, f);
+                            imageNum++;
+                            //}
                         }
                     }
 
@@ -59,10 +60,11 @@ var LowRezJam;
                             imageNum++;
 
                             var checkLoc = new LowRezJam.Point(crawlergame.hero.Position.X + ((f * crawlergame.hero.Forward.X) + ((l - 1) * -crawlergame.hero.Left.X)), crawlergame.hero.Position.Y + ((f * crawlergame.hero.Forward.Y) + ((l - 1) * -crawlergame.hero.Left.Y)));
-                            if (crawlergame.dungeon.Tiles[checkLoc.Y][checkLoc.X] != 2) {
-                                crawlergame.images[imageNum].frame = LowRezJam.Helper.getFrame(this.game, 3 + l, f);
-                                imageNum++;
-                            }
+
+                            //if (crawlergame.dungeon.Tiles[checkLoc.Y][checkLoc.X] != 2) {
+                            crawlergame.images[imageNum].frame = LowRezJam.Helper.getFrame(this.game, 3 + l, f);
+                            imageNum++;
+                            //}
                         }
                     }
                 }
