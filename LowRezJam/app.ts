@@ -5,55 +5,134 @@
 /// <reference path="hero.ts"/>
 module LowRezJam {
 
-    export class SimpleGame {
-        private game: Phaser.Game;
-        private images: Phaser.Image[];
-        private dungeon: LowRezJam.Dungeon;
-        private hero: LowRezJam.Hero;
+    export class CrawlerGame{
+        game: Phaser.Game;
+
+        images: Phaser.Image[];
+        dungeon: LowRezJam.Dungeon;
+        hero: LowRezJam.Hero;
+
+        fKey: Phaser.Key;
+        bKey: Phaser.Key;
+        tlKey: Phaser.Key;
+        trKey: Phaser.Key;
+        lKey: Phaser.Key;
+        rKey: Phaser.Key;
 
         constructor() {
-            this.game = new Phaser.Game(640, 640, Phaser.CANVAS, 'content', { preload: this.preload, create: this.create, update: this.update }, false, false);
+            var size = document.getElementById('content').clientWidth;
+
+            this.game = new Phaser.Game(size, size, Phaser.CANVAS, 'content', { preload: this.preload, create: this.create, update: this.update }, false, false);
+
+           
         }
 
         preload() {
-            this.game.load.spritesheet("dungeon", "img/dungeon.png", 32, 32, -1, 0, 0);
+            this.game.load.spritesheet("dungeon", "img/dungeon2.png", 32, 32, -1, 0, 0);
             this.game.stage.smoothed = false;
             this.game.canvas.getContext("2d").msImageSmoothingEnabled = false;
         }
 
         create() {
-            this.images = [];
-            for (var i = 0; i < 20; i++) {
-                this.images.push(this.game.add.image(0, 0, "dungeon", 0));
-                this.images[i].scale.set(20, 20);
-                this.images[i].crop(new Phaser.Rectangle(0, 0, 32, 32));
-                this.images[i].frame = LowRezJam.Helper.getFrame(this.game,0,0);
-            }
-
-            this.dungeon = new LowRezJam.Dungeon();
-            this.hero = new LowRezJam.Hero(this.dungeon.Spawn);
+            crawlergame.init();
+            
         }
 
         update(time) {
-            for (var i = 0; i < 20; i++) {
-                this.images[i].frame = LowRezJam.Helper.getFrame(this.game, 0, 0);
-                this.images[i].crop(new Phaser.Rectangle(0, 0, 16, 32));
+            for (var i = 0; i < crawlergame.images.length; i++) {
+                crawlergame.images[i].frame = LowRezJam.Helper.getFrame(this.game, 0, 0);
+                crawlergame.images[i].crop(new Phaser.Rectangle(0, 0, 16, 32));
             }
 
             // Floor and ceiling image
             var imageNum = 0;
-            this.images[imageNum].frame = LowRezJam.Helper.getFrame(this.game, 0, 1);
+            crawlergame.images[imageNum].frame = LowRezJam.Helper.getFrame(this.game, 19, 0);
 
-            for (var y = this.hero.Position.Y - 3; y <= this.hero.Position.Y; y++) {
+            imageNum++;
+            for (var f = 4; f >= 0; f--) {
+                for (var l = 3; l >= 0; l--) {
+                    var loc = new Point(crawlergame.hero.Position.X + ((f * crawlergame.hero.Forward.X) + (l * crawlergame.hero.Left.X)),
+                        crawlergame.hero.Position.Y + ((f * crawlergame.hero.Forward.Y) + (l * crawlergame.hero.Left.Y)));
+                    if (loc.Y >= 0 && loc.Y < crawlergame.dungeon.Tiles.length && loc.X >= 0 && loc.X < crawlergame.dungeon.Tiles[loc.Y].length) {
+                        if (crawlergame.dungeon.Tiles[loc.Y][loc.X] == 2) {
+                            var checkLoc = new Point(crawlergame.hero.Position.X + (((f - 1) * crawlergame.hero.Forward.X) + (l * crawlergame.hero.Left.X)),
+                                crawlergame.hero.Position.Y + (((f - 1) * crawlergame.hero.Forward.Y) + (l * crawlergame.hero.Left.Y)));
+                            //if (crawlergame.dungeon.Tiles[checkLoc.Y][checkLoc.X] == 0) {
+                            crawlergame.images[imageNum].frame = Helper.getFrame(this.game, 10 - l, f);
+                            imageNum++;
+                            //}
+
+                            var checkLoc = new Point(crawlergame.hero.Position.X + ((f * crawlergame.hero.Forward.X) + ((l - 1) * crawlergame.hero.Left.X)),
+                                crawlergame.hero.Position.Y + ((f * crawlergame.hero.Forward.Y) + ((l - 1) * crawlergame.hero.Left.Y)));
+                            if (crawlergame.dungeon.Tiles[checkLoc.Y][checkLoc.X] != 2) {
+                                crawlergame.images[imageNum].frame = Helper.getFrame(this.game, 3 - l, f);
+                                imageNum++;
+                            }
+
+                        }
+                    }
+
+                    loc = new Point(crawlergame.hero.Position.X + ((f * crawlergame.hero.Forward.X) + (l * -crawlergame.hero.Left.X)),
+                        crawlergame.hero.Position.Y + ((f * crawlergame.hero.Forward.Y) + (l * -crawlergame.hero.Left.Y)));
+                    if (loc.Y >= 0 && loc.Y < crawlergame.dungeon.Tiles.length && loc.X >= 0 && loc.X < crawlergame.dungeon.Tiles[loc.Y].length) {
+                        if (crawlergame.dungeon.Tiles[loc.Y][loc.X] == 2) {
+                            crawlergame.images[imageNum].frame = Helper.getFrame(this.game, 10 + l, f);
+                            imageNum++;
+
+                            var checkLoc = new Point(crawlergame.hero.Position.X + ((f * crawlergame.hero.Forward.X) + ((l - 1) * -crawlergame.hero.Left.X)),
+                                crawlergame.hero.Position.Y + ((f * crawlergame.hero.Forward.Y) + ((l - 1) * -crawlergame.hero.Left.Y)));
+                            if (crawlergame.dungeon.Tiles[checkLoc.Y][checkLoc.X] != 2) {
+                                crawlergame.images[imageNum].frame = Helper.getFrame(this.game, 3 + l, f);
+                                imageNum++;
+                            }
+
+                        }
+
+                    }
+
+                }
             }
         }
 
-    }
+        init() {
+            crawlergame.dungeon = new LowRezJam.Dungeon(30, 30, this.game);
+            crawlergame.hero = new LowRezJam.Hero(crawlergame.dungeon);
 
+            crawlergame.fKey = this.game.input.keyboard.addKey(Phaser.Keyboard.W);
+            crawlergame.fKey.onDown.add(crawlergame.hero.MoveForward, crawlergame.hero);
+            crawlergame.bKey = this.game.input.keyboard.addKey(Phaser.Keyboard.S);
+            crawlergame.bKey.onDown.add(crawlergame.hero.MoveBackward, crawlergame.hero);
+            crawlergame.tlKey = this.game.input.keyboard.addKey(Phaser.Keyboard.Q);
+            crawlergame.tlKey.onDown.add(crawlergame.hero.TurnLeft, crawlergame.hero);
+            crawlergame.trKey = this.game.input.keyboard.addKey(Phaser.Keyboard.E);
+            crawlergame.trKey.onDown.add(crawlergame.hero.TurnRight, crawlergame.hero);
+            crawlergame.lKey = this.game.input.keyboard.addKey(Phaser.Keyboard.A);
+            crawlergame.lKey.onDown.add(crawlergame.hero.MoveLeft, crawlergame.hero);
+            crawlergame.rKey = this.game.input.keyboard.addKey(Phaser.Keyboard.D);
+            crawlergame.rKey.onDown.add(crawlergame.hero.MoveRight, crawlergame.hero);
+
+            crawlergame.images = [];
+            for (var i = 0; i < crawlergame.dungeon.Tiles.length * crawlergame.dungeon.Tiles[0].length; i++) {
+                crawlergame.images.push(crawlergame.game.add.image(0, 0, "dungeon", 0));
+                crawlergame.images[i].scale.set(crawlergame.game.width / 32);
+                crawlergame.images[i].crop(new Phaser.Rectangle(0, 0, 32, 32));
+                crawlergame.images[i].frame = LowRezJam.Helper.getFrame(this.game, 0, 0);
+            }
+        }
+
+        public Generate() {
+            this.init();
+            //this.dungeon = new LowRezJam.Dungeon(30, 30, this.game);
+            //this.hero = new LowRezJam.Hero(this.dungeon);
+        }
+
+    }
 }
+
+var crawlergame: LowRezJam.CrawlerGame;
 
 window.onload = () => {
 
-    var game = new LowRezJam.SimpleGame();
+    crawlergame = new LowRezJam.CrawlerGame();
 
 };

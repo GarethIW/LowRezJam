@@ -4,7 +4,7 @@
         function Helper() {
         }
         Helper.getFrame = function (game, x, y) {
-            return (10 * y) + x;
+            return (20 * y) + x;
         };
         return Helper;
     })();
