@@ -6,6 +6,7 @@
         public Height: number;
         public Tiles: number[][];
         public Spawn: Point;
+        public Doors: Door[];
 
         private rooms: Room[];
         private maxRooms = 15;
@@ -33,6 +34,7 @@
             this.rnd = game.rnd;
 
             this.Tiles = [[]];
+            this.Doors = [];
             this.rooms = [];
 
             for (var y = 0; y < this.Height; y++) {
@@ -112,6 +114,13 @@
                     for (var c = secondExit.Y; c <= firstExit.Y; c++) {
                         this.GenerateVerticalCorridor(firstExit.X, c);
                     }
+                }
+            }
+
+            for (var i = 0; i < this.possibleDoorLocations.length; i++) {
+                if (this.rnd.integerInRange(0, 5) == 0) {
+                    this.Tiles[this.possibleDoorLocations[i].Y][this.possibleDoorLocations[i].X] = 3;
+                    this.Doors.push(new Door(new Point(this.possibleDoorLocations[i].X, this.possibleDoorLocations[i].Y)));
                 }
             }
 

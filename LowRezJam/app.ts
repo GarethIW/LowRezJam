@@ -70,6 +70,10 @@ module LowRezJam {
                             //}
 
                         }
+                        if (crawlergame.dungeon.Tiles[loc.Y][loc.X] == 3) {
+                            crawlergame.images[imageNum].frame = Helper.getFrame(this.game, 10 - l, f+4);
+                            imageNum++;
+                        }
                     }
 
                     loc = new Point(crawlergame.hero.Position.X + ((f * crawlergame.hero.Forward.X) + (l * -crawlergame.hero.Left.X)),
@@ -86,6 +90,10 @@ module LowRezJam {
                                 imageNum++;
                             //}
 
+                        }
+                        if (crawlergame.dungeon.Tiles[loc.Y][loc.X] == 3) {
+                            crawlergame.images[imageNum].frame = Helper.getFrame(this.game, 10 + l, f + 4);
+                            imageNum++;
                         }
 
                     }
