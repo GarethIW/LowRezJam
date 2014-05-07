@@ -117,10 +117,20 @@
                 }
             }
 
+            // Make doors
             for (var i = 0; i < this.possibleDoorLocations.length; i++) {
-                if (this.rnd.integerInRange(0, 5) == 0) {
-                    this.Tiles[this.possibleDoorLocations[i].Y][this.possibleDoorLocations[i].X] = 3;
-                    this.Doors.push(new Door(new Point(this.possibleDoorLocations[i].X, this.possibleDoorLocations[i].Y)));
+                if (this.rnd.integerInRange(0, 4) == 0) {
+                    // Need to check surrounding tiles for walls as they may have changed since adding possible location
+                    // Two walls is number we're looking for!
+                    var count = 0;
+                    if (this.Tiles[this.possibleDoorLocations[i].Y - 1][this.possibleDoorLocations[i].X] == 2) count++;
+                    if (this.Tiles[this.possibleDoorLocations[i].Y + 1][this.possibleDoorLocations[i].X] == 2) count++;
+                    if (this.Tiles[this.possibleDoorLocations[i].Y][this.possibleDoorLocations[i].X - 1] == 2) count++;
+                    if (this.Tiles[this.possibleDoorLocations[i].Y][this.possibleDoorLocations[i].X + 1] == 2) count++;
+                    if (count == 2) {
+                        this.Tiles[this.possibleDoorLocations[i].Y][this.possibleDoorLocations[i].X] = 3;
+                        this.Doors.push(new Door(new Point(this.possibleDoorLocations[i].X, this.possibleDoorLocations[i].Y)));
+                    }
                 }
             }
 

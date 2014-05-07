@@ -48,8 +48,15 @@ module LowRezJam {
             crawlergame.cursor.y = Math.floor(this.game.input.mousePointer.y / (crawlergame.game.width / 32)) * (crawlergame.game.width / 32);
             crawlergame.cursor.z = -9999;
 
+            // Update doors
+            for (var d = 0; d < crawlergame.dungeon.Doors.length; d++) {
+                crawlergame.dungeon.Doors[d].Update(time);
+            }
+
+            // Set up images
             for (var i = 0; i < crawlergame.images.length; i++) {
                 crawlergame.images[i].frame = LowRezJam.Helper.getFrame(this.game, 0, 0);
+                crawlergame.images[i].scale.set(crawlergame.game.width / 32);
                 crawlergame.images[i].crop(new Phaser.Rectangle(0, 0, 32, 32));
             }
 
@@ -84,8 +91,10 @@ module LowRezJam {
                             crawlergame.images[imageNum].frame = Helper.getFrame(this.game, 10 - l, f + 4);
                             imageNum++;
                             for (var d = 0;d<crawlergame.dungeon.Doors.length;d++) {
-                                if (crawlergame.dungeon.Doors[d].Position.X == loc.X && crawlergame.dungeon.Doors[d].Position.Y == loc.Y && crawlergame.dungeon.Doors[d].Open == false) {
-                                    crawlergame.images[imageNum].frame = Helper.getFrame(this.game, 17 - l, f + 4);
+                                if (crawlergame.dungeon.Doors[d].Position.X == loc.X && crawlergame.dungeon.Doors[d].Position.Y == loc.Y) {
+                                    //crawlergame.images[imageNum].frame = Helper.getFrame(this.game, 17 - l, f + 4);
+                                    crawlergame.images[imageNum].crop(new Phaser.Rectangle((17 - l) * 32, (f + 4) * 32, 32, 32 - crawlergame.dungeon.Doors[d].OpenAmount));
+                                   //crawlergame.images[imageNum].crop(new Phaser.Rectangle(0, 0, 32, 32 - crawlergame.dungeon.Doors[d].OpenAmount));
                                     imageNum++;
                                 }
                             }
@@ -111,8 +120,10 @@ module LowRezJam {
                             crawlergame.images[imageNum].frame = Helper.getFrame(this.game, 10 + l, f + 4);
                             imageNum++;
                             for (var d = 0; d < crawlergame.dungeon.Doors.length; d++) {
-                                if (crawlergame.dungeon.Doors[d].Position.X == loc.X && crawlergame.dungeon.Doors[d].Position.Y == loc.Y && crawlergame.dungeon.Doors[d].Open == false) {
-                                    crawlergame.images[imageNum].frame = Helper.getFrame(this.game, 17 + l, f + 4);
+                                if (crawlergame.dungeon.Doors[d].Position.X == loc.X && crawlergame.dungeon.Doors[d].Position.Y == loc.Y) {
+                                    //crawlergame.images[imageNum].frame = Helper.getFrame(this.game, 17 + l, f + 4);
+                                    crawlergame.images[imageNum].crop(new Phaser.Rectangle((17+l)*32, (f+4)*32, 32, 32 - crawlergame.dungeon.Doors[d].OpenAmount));
+                                    //crawlergame.images[imageNum].scale.set(crawlergame.game.width / 32, Math.floor(crawlergame.game.width / (32 + crawlergame.dungeon.Doors[d].OpenAmount*2)));
                                     imageNum++;
                                 }
                             }
@@ -156,7 +167,19 @@ module LowRezJam {
         }
 
         mouseDown(event) {
-            
+            var clickPoint = new Point(crawlergame.cursor.x / (crawlergame.game.width / 32), crawlergame.cursor.y / (crawlergame.game.width / 32));
+            for (var f = 1; f <= 3; f++) {
+                var l = 0;
+                var loc = new Point(crawlergame.hero.Position.X + ((f * crawlergame.hero.Forward.X) + (l * crawlergame.hero.Left.X)),
+                    crawlergame.hero.Position.Y + ((f * crawlergame.hero.Forward.Y) + (l * crawlergame.hero.Left.Y)));
+
+                if (f == 1) {
+                    for (var d = 0; d < crawlergame.dungeon.Doors.length; d++) {
+                        if (crawlergame.dungeon.Doors[d].Position.X == loc.X && crawlergame.dungeon.Doors[d].Position.Y == loc.Y)
+                            crawlergame.dungeon.Doors[d].Clicked(clickPoint);
+                    }
+                }
+            }
         }
 
         public Generate() {

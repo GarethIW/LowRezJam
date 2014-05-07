@@ -2,7 +2,7 @@
     export class Helper {
 
         public static getFrame(game: Phaser.Game, x: number, y: number) {
-            return (20*y) + x;
+            return (21*y) + x;
         }
 
     }

@@ -35,8 +35,14 @@
 
         Hero.prototype.TryMove = function (l, f) {
             var loc = this.GetLoc(l, f);
+
             if (this.dungeon.Tiles[loc.Y][loc.X] == 1)
                 this.Position = loc;
+
+            if (this.dungeon.Tiles[loc.Y][loc.X] == 3)
+                for (var d = 0; d < crawlergame.dungeon.Doors.length; d++)
+                    if (crawlergame.dungeon.Doors[d].Position.X == loc.X && crawlergame.dungeon.Doors[d].Position.Y == loc.Y && crawlergame.dungeon.Doors[d].Open)
+                        this.Position = loc;
         };
 
         Hero.prototype.DoTurn = function (dir) {
