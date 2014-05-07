@@ -28,7 +28,7 @@ module LowRezJam {
         }
 
         preload() {
-            this.game.load.spritesheet("dungeon", "img/dungeon2.png", 32, 32, -1, 0, 0);
+            this.game.load.spritesheet("dungeon", "img/dungeon3.png", 32, 32, -1, 0, 0);
             this.game.stage.smoothed = false;
             this.game.canvas.getContext("2d").msImageSmoothingEnabled = false;
         }
@@ -41,7 +41,7 @@ module LowRezJam {
         update(time) {
             for (var i = 0; i < crawlergame.images.length; i++) {
                 crawlergame.images[i].frame = LowRezJam.Helper.getFrame(this.game, 0, 0);
-                crawlergame.images[i].crop(new Phaser.Rectangle(0, 0, 16, 32));
+                crawlergame.images[i].crop(new Phaser.Rectangle(0, 0, 32, 32));
             }
 
             // Floor and ceiling image
@@ -65,14 +65,21 @@ module LowRezJam {
                             var checkLoc = new Point(crawlergame.hero.Position.X + ((f * crawlergame.hero.Forward.X) + ((l - 1) * crawlergame.hero.Left.X)),
                                 crawlergame.hero.Position.Y + ((f * crawlergame.hero.Forward.Y) + ((l - 1) * crawlergame.hero.Left.Y)));
                             //if (crawlergame.dungeon.Tiles[checkLoc.Y][checkLoc.X] != 2) {
-                                crawlergame.images[imageNum].frame = Helper.getFrame(this.game, 3 - l, f);
-                                imageNum++;
+                            crawlergame.images[imageNum].frame = Helper.getFrame(this.game, 3 - l, f);
+                            imageNum++;
                             //}
 
                         }
+                        // door
                         if (crawlergame.dungeon.Tiles[loc.Y][loc.X] == 3) {
-                            crawlergame.images[imageNum].frame = Helper.getFrame(this.game, 10 - l, f+4);
+                            crawlergame.images[imageNum].frame = Helper.getFrame(this.game, 10 - l, f + 4);
                             imageNum++;
+                            for (var d = 0;d<crawlergame.dungeon.Doors.length;d++) {
+                                if (crawlergame.dungeon.Doors[d].Position.X == loc.X && crawlergame.dungeon.Doors[d].Position.Y == loc.Y && crawlergame.dungeon.Doors[d].Open == false) {
+                                    crawlergame.images[imageNum].frame = Helper.getFrame(this.game, 17 - l, f + 4);
+                                    imageNum++;
+                                }
+                            }
                         }
                     }
 
@@ -86,14 +93,20 @@ module LowRezJam {
                             var checkLoc = new Point(crawlergame.hero.Position.X + ((f * crawlergame.hero.Forward.X) + ((l - 1) * -crawlergame.hero.Left.X)),
                                 crawlergame.hero.Position.Y + ((f * crawlergame.hero.Forward.Y) + ((l - 1) * -crawlergame.hero.Left.Y)));
                             //if (crawlergame.dungeon.Tiles[checkLoc.Y][checkLoc.X] != 2) {
-                                crawlergame.images[imageNum].frame = Helper.getFrame(this.game, 3 + l, f);
-                                imageNum++;
+                            crawlergame.images[imageNum].frame = Helper.getFrame(this.game, 3 + l, f);
+                            imageNum++;
                             //}
 
                         }
                         if (crawlergame.dungeon.Tiles[loc.Y][loc.X] == 3) {
                             crawlergame.images[imageNum].frame = Helper.getFrame(this.game, 10 + l, f + 4);
                             imageNum++;
+                            for (var d = 0; d < crawlergame.dungeon.Doors.length; d++) {
+                                if (crawlergame.dungeon.Doors[d].Position.X == loc.X && crawlergame.dungeon.Doors[d].Position.Y == loc.Y && crawlergame.dungeon.Doors[d].Open == false) {
+                                    crawlergame.images[imageNum].frame = Helper.getFrame(this.game, 17 + l, f + 4);
+                                    imageNum++;
+                                }
+                            }
                         }
 
                     }

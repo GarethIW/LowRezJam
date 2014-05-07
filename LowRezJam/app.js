@@ -12,7 +12,7 @@ var LowRezJam;
             this.game = new Phaser.Game(size, size, Phaser.CANVAS, 'content', { preload: this.preload, create: this.create, update: this.update }, false, false);
         }
         CrawlerGame.prototype.preload = function () {
-            this.game.load.spritesheet("dungeon", "img/dungeon2.png", 32, 32, -1, 0, 0);
+            this.game.load.spritesheet("dungeon", "img/dungeon3.png", 32, 32, -1, 0, 0);
             this.game.stage.smoothed = false;
             this.game.canvas.getContext("2d").msImageSmoothingEnabled = false;
         };
@@ -24,7 +24,7 @@ var LowRezJam;
         CrawlerGame.prototype.update = function (time) {
             for (var i = 0; i < crawlergame.images.length; i++) {
                 crawlergame.images[i].frame = LowRezJam.Helper.getFrame(this.game, 0, 0);
-                crawlergame.images[i].crop(new Phaser.Rectangle(0, 0, 16, 32));
+                crawlergame.images[i].crop(new Phaser.Rectangle(0, 0, 32, 32));
             }
 
             // Floor and ceiling image
@@ -51,9 +51,17 @@ var LowRezJam;
                             imageNum++;
                             //}
                         }
+
+                        // door
                         if (crawlergame.dungeon.Tiles[loc.Y][loc.X] == 3) {
                             crawlergame.images[imageNum].frame = LowRezJam.Helper.getFrame(this.game, 10 - l, f + 4);
                             imageNum++;
+                            for (var d = 0; d < crawlergame.dungeon.Doors.length; d++) {
+                                if (crawlergame.dungeon.Doors[d].Position.X == loc.X && crawlergame.dungeon.Doors[d].Position.Y == loc.Y && crawlergame.dungeon.Doors[d].Open == false) {
+                                    crawlergame.images[imageNum].frame = LowRezJam.Helper.getFrame(this.game, 17 - l, f + 4);
+                                    imageNum++;
+                                }
+                            }
                         }
                     }
 
@@ -73,6 +81,12 @@ var LowRezJam;
                         if (crawlergame.dungeon.Tiles[loc.Y][loc.X] == 3) {
                             crawlergame.images[imageNum].frame = LowRezJam.Helper.getFrame(this.game, 10 + l, f + 4);
                             imageNum++;
+                            for (var d = 0; d < crawlergame.dungeon.Doors.length; d++) {
+                                if (crawlergame.dungeon.Doors[d].Position.X == loc.X && crawlergame.dungeon.Doors[d].Position.Y == loc.Y && crawlergame.dungeon.Doors[d].Open == false) {
+                                    crawlergame.images[imageNum].frame = LowRezJam.Helper.getFrame(this.game, 17 + l, f + 4);
+                                    imageNum++;
+                                }
+                            }
                         }
                     }
                 }

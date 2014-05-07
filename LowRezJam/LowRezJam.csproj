@@ -20,6 +20,7 @@
     <Content Include="app.css" />
     <Content Include="img\dungeon.png" />
     <Content Include="img\dungeon2.png" />
+    <Content Include="img\dungeon3.png" />
     <Content Include="index.html" />
     <Content Include="phaser.js" />
     <Content Include="phaser.min.js" />
