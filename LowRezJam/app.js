@@ -13,8 +13,11 @@ var LowRezJam;
         }
         CrawlerGame.prototype.preload = function () {
             this.game.load.spritesheet("dungeon", "img/dungeon3.png", 32, 32, -1, 0, 0);
+            this.game.load.spritesheet("cursor", "img/mouse.png", 4, 4, -1, 0, 0);
             this.game.stage.smoothed = false;
             this.game.canvas.getContext("2d").msImageSmoothingEnabled = false;
+
+            this.game.input.mouse.capture = true;
         };
 
         CrawlerGame.prototype.create = function () {
@@ -22,6 +25,10 @@ var LowRezJam;
         };
 
         CrawlerGame.prototype.update = function (time) {
+            crawlergame.cursor.x = Math.floor(this.game.input.mousePointer.x / (crawlergame.game.width / 32)) * (crawlergame.game.width / 32);
+            crawlergame.cursor.y = Math.floor(this.game.input.mousePointer.y / (crawlergame.game.width / 32)) * (crawlergame.game.width / 32);
+            crawlergame.cursor.z = -9999;
+
             for (var i = 0; i < crawlergame.images.length; i++) {
                 crawlergame.images[i].frame = LowRezJam.Helper.getFrame(this.game, 0, 0);
                 crawlergame.images[i].crop(new Phaser.Rectangle(0, 0, 32, 32));
@@ -97,6 +104,8 @@ var LowRezJam;
             crawlergame.dungeon = new LowRezJam.Dungeon(30, 30, this.game);
             crawlergame.hero = new LowRezJam.Hero(crawlergame.dungeon);
 
+            this.game.input.mouse.mouseDownCallback = this.mouseDown;
+
             crawlergame.fKey = this.game.input.keyboard.addKey(Phaser.Keyboard.W);
             crawlergame.fKey.onDown.add(crawlergame.hero.MoveForward, crawlergame.hero);
             crawlergame.bKey = this.game.input.keyboard.addKey(Phaser.Keyboard.S);
@@ -117,6 +126,12 @@ var LowRezJam;
                 crawlergame.images[i].crop(new Phaser.Rectangle(0, 0, 32, 32));
                 crawlergame.images[i].frame = LowRezJam.Helper.getFrame(this.game, 0, 0);
             }
+
+            crawlergame.cursor = this.game.add.sprite(0, 0, "cursor", 0);
+            crawlergame.cursor.scale.set(crawlergame.game.width / 32);
+        };
+
+        CrawlerGame.prototype.mouseDown = function (event) {
         };
 
         CrawlerGame.prototype.Generate = function () {
