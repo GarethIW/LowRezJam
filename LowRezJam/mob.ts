@@ -1,5 +1,5 @@
 ﻿module LowRezJam {
-    export class Hero {
+    export class Mob {
         public Position: Point;
         public Forward: Point;
         public Left: Point;
@@ -7,8 +7,8 @@
 
         private dungeon;
 
-        constructor(dungeon: Dungeon) {
-            this.Position = dungeon.Spawn;
+        constructor(dungeon: Dungeon, spawn: Point) {
+            this.Position = spawn;
             this.Forward = new Point(0, -1);
             this.Left = new Point(-1, 0);
 
@@ -37,6 +37,13 @@
 
         public TurnRight() {
             this.DoTurn(1);
+        }
+
+        public CalcFrame(heroFace: number) : number {
+            var f = this.Face - heroFace;
+            if (f < 0) f = 4 + f;
+
+            return f;
         }
 
         private TryMove(l: number, f: number) {

@@ -1,7 +1,7 @@
 ﻿var LowRezJam;
 (function (LowRezJam) {
     var Dungeon = (function () {
-        function Dungeon(width, height, game) {
+        function Dungeon(width, height, game, mobs) {
             this.maxRooms = 15;
             this.maxRoomSize = 8;
             this.possibleDoorLocations = [];
@@ -32,6 +32,11 @@
             }
 
             this.Generate();
+
+            for (var m = 0; m < 10; m++) {
+                var room = this.rnd.integerInRange(0, this.rooms.length - 1);
+                mobs.push(new LowRezJam.Mob(this, new LowRezJam.Point(this.rooms[room].Left + 1 + this.rnd.integerInRange(0, this.rooms[room].Width - 2), this.rooms[room].Top + 1 + this.rnd.integerInRange(0, this.rooms[room].Height - 2))));
+            }
         }
         Dungeon.prototype.Generate = function () {
             var maxTries = 15;

@@ -15,7 +15,7 @@
 
         private rnd: Phaser.RandomDataGenerator;
 
-        constructor(width: number, height: number, game: Phaser.Game) {
+        constructor(width: number, height: number, game: Phaser.Game, mobs: Mob[]) {
             //this.Tiles = [
             //    [1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
             //    [1, 0, 0, 0, 0, 0, 0, 0, 0, 1],
@@ -44,6 +44,11 @@
             }
 
             this.Generate();
+
+            for (var m = 0; m < 10; m++) {
+                var room = this.rnd.integerInRange(0, this.rooms.length-1);
+                mobs.push(new Mob(this, new Point(this.rooms[room].Left + 1 + this.rnd.integerInRange(0, this.rooms[room].Width - 2), this.rooms[room].Top + 1 + this.rnd.integerInRange(0, this.rooms[room].Height - 2))));
+            }
         }
 
         Generate() {

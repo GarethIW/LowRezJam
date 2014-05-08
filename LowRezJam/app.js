@@ -34,6 +34,8 @@ var LowRezJam;
             }
 
             for (var i = 0; i < crawlergame.images.length; i++) {
+                crawlergame.images[i].position.set(0, 0);
+                crawlergame.images[i].anchor.set(0, 0);
                 crawlergame.images[i].frame = LowRezJam.Helper.getFrame(this.game, 0, 0);
                 crawlergame.images[i].scale.set(crawlergame.game.width / 32);
                 crawlergame.images[i].crop(new Phaser.Rectangle(0, 0, 32, 32));
@@ -78,6 +80,15 @@ var LowRezJam;
                                 }
                             }
                         }
+                        if (l == 0 && f > 0)
+                            for (var m = 0; m < crawlergame.mobs.length; m++) {
+                                if (crawlergame.mobs[m].Position.X == loc.X && crawlergame.mobs[m].Position.Y == loc.Y) {
+                                    //crawlergame.images[imageNum].frame = Helper.getFrame(this.game, crawlergame.mobs[m].CalcFrame(crawlergame.hero.Face), 9);
+                                    //crawlergame.images[imageNum].scale = Helper.getScale(f, crawlergame.game.width / 32);
+                                    // crawlergame.images[imageNum].anchor.set(16, 16);
+                                    imageNum++;
+                                }
+                            }
                     }
 
                     loc = new LowRezJam.Point(crawlergame.hero.Position.X + ((f * crawlergame.hero.Forward.X) + (l * -crawlergame.hero.Left.X)), crawlergame.hero.Position.Y + ((f * crawlergame.hero.Forward.Y) + (l * -crawlergame.hero.Left.Y)));
@@ -106,13 +117,25 @@ var LowRezJam;
                                 }
                             }
                         }
+                        if (l == 0 && f > 0)
+                            for (var m = 0; m < crawlergame.mobs.length; m++) {
+                                if (crawlergame.mobs[m].Position.X == loc.X && crawlergame.mobs[m].Position.Y == loc.Y) {
+                                    crawlergame.images[imageNum].frame = LowRezJam.Helper.getFrame(this.game, crawlergame.mobs[m].CalcFrame(crawlergame.hero.Face), 9);
+                                    crawlergame.images[imageNum].scale = LowRezJam.Helper.getScale(f, crawlergame.game.width / 32);
+                                    crawlergame.images[imageNum].anchor.set(0.5, 0.5);
+                                    crawlergame.images[imageNum].position.set(crawlergame.game.width / 2, crawlergame.game.height / 2);
+                                    imageNum++;
+                                }
+                            }
                     }
                 }
             }
         };
 
         CrawlerGame.prototype.init = function () {
-            crawlergame.dungeon = new LowRezJam.Dungeon(30, 30, this.game);
+            crawlergame.mobs = [];
+
+            crawlergame.dungeon = new LowRezJam.Dungeon(30, 30, this.game, crawlergame.mobs);
             crawlergame.hero = new LowRezJam.Hero(crawlergame.dungeon);
 
             this.game.input.mouse.mouseDownCallback = this.mouseDown;

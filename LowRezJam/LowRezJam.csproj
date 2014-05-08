@@ -18,6 +18,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Content Include="app.css" />
+    <Content Include="img\blob.png" />
     <Content Include="img\dungeon.png" />
     <Content Include="img\dungeon2.png" />
     <Content Include="img\dungeon3.png" />
@@ -40,6 +41,7 @@
     <TypeScriptCompile Include="door.ts" />
     <TypeScriptCompile Include="dungeon.ts" />
     <TypeScriptCompile Include="helper.ts" />
+    <TypeScriptCompile Include="mob.ts" />
     <TypeScriptCompile Include="hero.ts" />
     <TypeScriptCompile Include="phaser.d.ts" />
     <TypeScriptCompile Include="point.ts" />

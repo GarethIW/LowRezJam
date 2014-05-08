@@ -1,39 +1,47 @@
 ﻿var LowRezJam;
 (function (LowRezJam) {
-    var Hero = (function () {
-        function Hero(dungeon) {
+    var Mob = (function () {
+        function Mob(dungeon, spawn) {
             this.Face = 0;
-            this.Position = dungeon.Spawn;
+            this.Position = spawn;
             this.Forward = new LowRezJam.Point(0, -1);
             this.Left = new LowRezJam.Point(-1, 0);
 
             this.dungeon = dungeon;
         }
-        Hero.prototype.MoveForward = function () {
+        Mob.prototype.MoveForward = function () {
             this.TryMove(0, 1);
         };
 
-        Hero.prototype.MoveBackward = function () {
+        Mob.prototype.MoveBackward = function () {
             this.TryMove(0, -1);
         };
 
-        Hero.prototype.MoveLeft = function () {
+        Mob.prototype.MoveLeft = function () {
             this.TryMove(1, 0);
         };
 
-        Hero.prototype.MoveRight = function () {
+        Mob.prototype.MoveRight = function () {
             this.TryMove(-1, 0);
         };
 
-        Hero.prototype.TurnLeft = function () {
+        Mob.prototype.TurnLeft = function () {
             this.DoTurn(-1);
         };
 
-        Hero.prototype.TurnRight = function () {
+        Mob.prototype.TurnRight = function () {
             this.DoTurn(1);
         };
 
-        Hero.prototype.TryMove = function (l, f) {
+        Mob.prototype.CalcFrame = function (heroFace) {
+            var f = this.Face - heroFace;
+            if (f < 0)
+                f = 4 + f;
+
+            return f;
+        };
+
+        Mob.prototype.TryMove = function (l, f) {
             var loc = this.GetLoc(l, f);
 
             if (this.dungeon.Tiles[loc.Y][loc.X] == 1)
@@ -45,7 +53,7 @@
                         this.Position = loc;
         };
 
-        Hero.prototype.DoTurn = function (dir) {
+        Mob.prototype.DoTurn = function (dir) {
             this.Face += dir;
             if (this.Face == -1)
                 this.Face = 3;
@@ -72,11 +80,11 @@
             }
         };
 
-        Hero.prototype.GetLoc = function (l, f) {
+        Mob.prototype.GetLoc = function (l, f) {
             return new LowRezJam.Point(this.Position.X + ((f * this.Forward.X) + (l * this.Left.X)), this.Position.Y + ((f * this.Forward.Y) + (l * this.Left.Y)));
         };
-        return Hero;
+        return Mob;
     })();
-    LowRezJam.Hero = Hero;
+    LowRezJam.Mob = Mob;
 })(LowRezJam || (LowRezJam = {}));
-//# sourceMappingURL=hero.js.map
+//# sourceMappingURL=mob.js.map
